@@ -99,7 +99,7 @@ BEGIN
 END//
 DELIMITER ;
 -- Llamada al procedimiento para agregar una nueva reserva
-CALL AgregarNuevaReserva(2, 1, 2, '2024-10-01', '2024-10-02');
+CALL AgregarNuevaReserva(2, 1, 2, '2024-10-03', '2024-10-04');
 DELIMITER //
 CREATE PROCEDURE eliminacion_de_reserva(
     IN p_ReservaID INT
@@ -111,6 +111,11 @@ BEGIN
 END//
 DELIMITER ;
 -- Llamada al procedimiento para eliminar una reserva
-CALL eliminacion_de_reserva(2);
+CALL eliminacion_de_reserva(3);
 -- Consultas para verificar los datos
+
+SELECT * FROM Reservas WHERE FechaInicio = CURDATE();
+SELECT * FROM Reservas;
+SELECT CURDATE();
+
 
