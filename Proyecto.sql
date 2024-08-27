@@ -1,6 +1,7 @@
 CREATE DATABASE Reserva_hotel
 
 USE Reserva_hotel
+
 -- holaa
 -- Crear tablas
 CREATE TABLE Usuarios (
@@ -112,3 +113,4 @@ DELIMITER ;
 -- Llamada al procedimiento para eliminar una reserva
 CALL eliminacion_de_reserva(2);
 -- Consultas para verificar los datos
+
