@@ -1,3 +1,4 @@
+
 CREATE DATABASE Reserva_hotel
 
 USE Reserva_hotel
@@ -11,6 +12,7 @@ CREATE TABLE Usuarios (
     Contraseña VARCHAR(255) NOT NULL,
     Teléfono VARCHAR(20),
     Dirección VARCHAR(255)
+   
 );
 CREATE TABLE Hoteles (
     HotelID INT AUTO_INCREMENT PRIMARY KEY,
