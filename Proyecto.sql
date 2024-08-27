@@ -1,6 +1,8 @@
-CREATE DATABASE reserva_hotel
-    DEFAULT CHARACTER SET = 'utf8mb4';
-USE reserva_hotel;
+CREATE DATABASE Reserva_hotel
+
+USE Reserva_hotel
+
+-- holaa
 -- Crear tablas
 CREATE TABLE Usuarios (
     UsuarioID INT AUTO_INCREMENT PRIMARY KEY,
@@ -111,8 +113,4 @@ DELIMITER ;
 -- Llamada al procedimiento para eliminar una reserva
 CALL eliminacion_de_reserva(2);
 -- Consultas para verificar los datos
-
-
-
-
 
