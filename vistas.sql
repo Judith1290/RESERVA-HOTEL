@@ -16,3 +16,5 @@ FROM
     JOIN Habitaciones ha ON r.HabitacionID = ha.HabitacionID;
 
 SELECT * FROM VistaReservas;
+
+-- revision
