@@ -37,7 +37,7 @@ WHERE
 --  función integrada AVG(). Esta función calcula automáticamente el valor promedio de una columna.
 
 -- Consulta para listar los hoteles que tienen habitaciones disponibles pero no han sido
--- reservadas en el último mes
+-- reservadas en el último mess
 
 SELECT h.HotelID, ho.NombreHotel, COUNT(*) AS HabitacionesDisponibles
 FROM
