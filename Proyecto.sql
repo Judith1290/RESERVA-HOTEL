@@ -3,8 +3,6 @@ CREATE DATABASE Reserva_hotel
 
 USE Reserva_hotel
 
--- holaa
--- Crear tablas
 CREATE TABLE Usuarios (
     UsuarioID INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
@@ -152,7 +150,7 @@ BEGIN
 END//
 DELIMITER ;
 -- Llamada al procedimiento para agregar una nueva reserva
-CALL AgregarNuevaReserva(2, 1, 2, '2024-10-03', '2024-10-04');
+CALL AgregarNuevaReserva(3, 3, 7, '2024-03-15', '2024-03-16');
 DELIMITER //
 CREATE PROCEDURE eliminacion_de_reserva(
     IN p_ReservaID INT
