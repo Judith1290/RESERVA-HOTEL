@@ -570,3 +570,4 @@ WHERE
         WHERE
             ha.Disponible = TRUE
     );
+    -- hola
