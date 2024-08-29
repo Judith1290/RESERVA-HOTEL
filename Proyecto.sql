@@ -1,4 +1,5 @@
 
+
 CREATE DATABASE Reserva_hotel
 
 USE Reserva_hotel
@@ -46,8 +47,9 @@ VALUES
     ('Frander', 'Frander@gmail.com', '12334', '3232332', 'Puntarenas,Fraycaciano'),
     ('Luis Ramírez', 'luis.ramirez@gmail.com', 'securepass789', '61234567', 'San José, Escazú'),
     ('Ana López', 'ana.lopez@gmail.com', 'mypassword101', '62223344', 'Alajuela, San Carlos'),
-    ('Carlos Herrera', 'carlos.herrera@gmail.com', 'pass789', '63334455', 'Heredia, Belén'),
+    ('Carlos Herrera', 'juan.herrera@gmail.com', 'pass789', '63334455', 'Heredia, Belén'),
     ('Sofia Mendez', 'sofia.mendez@gmail.com', 'password321', '64445566', 'Cartago, Paraíso');
+
 INSERT INTO Hoteles (Nombre, Ubicación, Teléfono, Email)
 VALUES
     ('Hotel RIU', 'GuanacasteA', '506 26812350', 'reserva@hotelRIU.com'),
@@ -138,7 +140,7 @@ END//
 DELIMITER ;
 
 -- Llamada al procedimiento para agregar una nueva reserva
-CALL AgregarNuevaReserva(3,20, '2024-07-10', '2024-07-15');
+CALL AgregarNuevaReserva(29,43, '2024-07-10', '2024-07-15');
 DELIMITER //
 CREATE PROCEDURE eliminacion_de_reserva(
     IN p_ReservaID INT
@@ -158,4 +160,68 @@ CALL eliminacion_de_reserva(13);
 
 DELETE FROM Reservas;
 
+
+=======
+-- Selecciona la base de datos a utilizar
+USE Reserva_hotel;
+
+-- 1. Consulta para obtener los hoteles con mayor número de reservas
+-- Esta consulta muestra los hoteles ordenados por la cantidad total de reservas, de mayor a menor.
+SELECT
+    h.HotelID,
+    h.Nombre AS HotelNombre,
+    COUNT(r.ReservaID) AS TotalReservas
+FROM Hoteles h
+INNER JOIN Habitaciones ha ON h.HotelID = ha.HotelID
+INNER JOIN Reservas r ON ha.HabitacionID = r.HabitacionID
+GROUP BY
+    h.HotelID,
+    h.Nombre
+ORDER BY
+    TotalReservas DESC;
+
+-- 2. Consulta para buscar hoteles por nombre
+-- Esta consulta busca hoteles cuyo nombre contiene el texto "RIU".
+SELECT HotelID, Nombre
+FROM Hoteles
+WHERE Nombre LIKE '%RIU%';
+
+-- 3. Consulta para buscar hoteles cuya ubicación termina con un texto específico
+-- Esta consulta busca hoteles cuya ubicación termina con "as".
+SELECT HotelID, Ubicación
+FROM Hoteles
+WHERE Ubicación LIKE '%as';
+
+-- 4. Consulta para calcular el promedio de días de reservas en un hotel
+-- Esta consulta calcula el promedio de días reservados para el hotel con HotelID = 3.
+SELECT AVG(
+        DATEDIFF(FechaFin, FechaInicio) + 1
+    ) AS PromedioDiasReservados
+FROM Reservas
+WHERE
+    HabitacionID IN (
+        SELECT HabitacionID
+        FROM Habitaciones
+        WHERE HotelID = 3
+    );
+
+-- 5. Consulta para listar los hoteles que tienen habitaciones disponibles pero no han sido
+-- reservadas en el último mes
+-- Esta consulta obtiene los hoteles con habitaciones disponibles y que no han sido reservadas en el último mes.
+SELECT h.Nombre, h.Ubicación
+FROM Hoteles h
+WHERE
+    h.HotelID NOT IN (
+        SELECT ha.HotelID
+        FROM Habitaciones ha
+        INNER JOIN Reservas r ON ha.HabitacionID = r.HabitacionID
+        WHERE
+            r.FechaInicio >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+    )
+    AND h.HotelID IN (
+        SELECT ha.HotelID
+        FROM Habitaciones ha
+        WHERE
+            ha.Disponible = TRUE
+    );
 
