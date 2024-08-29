@@ -1,5 +1,3 @@
-USE Reserva_hotel;
-
 CREATE VIEW VistaReservas AS
 SELECT
     r.ReservaID,
@@ -12,10 +10,5 @@ SELECT
 FROM
     Reservas r
     JOIN Usuarios u ON r.UsuarioID = u.UsuarioID
-    JOIN Hoteles h ON r.HotelID = h.HotelID
-    JOIN Habitaciones ha ON r.HabitacionID = ha.HabitacionID;
-
-
-SELECT * FROM VistaReservas;
-
-
+    JOIN Habitaciones ha ON r.HabitacionID = ha.HabitacionID
+    JOIN Hoteles h ON ha.HotelID = h.HotelID;
