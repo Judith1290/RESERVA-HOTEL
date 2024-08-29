@@ -1,29 +1,37 @@
-USE reserva_hotel
+-- Selecciona la base de datos a utilizar
+USE reserva_hotel;
 
--- habitaciones disponibles
+-- 1. Consulta para contar las habitaciones disponibles en un hotel específico
+-- Esta consulta cuenta el número de habitaciones disponibles en el hotel con HotelID = 1.
 SELECT COUNT(*) AS HabitacionesDisponibles
-FROM Habitaciones
-WHERE HotelID = 1 AND Disponible = TRUE;
+FROM Habitaciones ha
+WHERE HotelID = 1 
+AND Disponible = TRUE
+AND ha.HabitacionID NOT IN (
+    SELECT r.HabitacionID
+    FROM Reservas r
+    WHERE r.FechaInicio <= '2024-08-15' AND r.FechaFin >= '2024-08-15'
+)
 
--- busqueda de hoteles por ubicacion segun el nombre de la ubicacion
+-- 2. Consulta para buscar hoteles por ubicación según el nombre de la ubicación
+-- Esta consulta busca hoteles cuya ubicación comienza con 'Punt'.
 SELECT * 
 FROM Hoteles
-<<<<<<< HEAD
 WHERE Ubicación LIKE 'Punt%';
-=======
-WHERE Ubicación LIKE 'Punta%';
 
--- Consulta para obtener las reservas de un cliente (por email) realizadas en el mes anterior.
+-- 3. Consulta para obtener las reservas de un cliente (por email) realizadas en el mes anterior
+-- Esta consulta obtiene todas las reservas realizadas por el usuario con el email 'mari.garcia@gmail.com' en el mes anterior.
 SELECT * 
-FROM reservas 
+FROM Reservas 
 WHERE UsuarioID = (
-    SELECT `UsuarioID`
+    SELECT UsuarioID
     FROM Usuarios 
     WHERE Email = 'mari.garcia@gmail.com'
 ) 
-AND FechaFin < '2024-08-18';
+AND FechaFin < CURDATE() AND FechaInicio >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH);
 
--- Consulta para identificar el hotel con la mayor ocupación en el mes anterior.
+-- 4. Consulta para identificar el hotel con la mayor ocupación en el mes anterior
+-- Esta consulta identifica el hotel con la mayor cantidad de reservas en el mes anterior.
 SELECT 
     ho.HotelID,
     COUNT(r.ReservaID) AS Cantidad_reserva
@@ -34,17 +42,10 @@ INNER JOIN
 INNER JOIN 
     Hoteles ho ON hab.HotelID = ho.HotelID
 WHERE 
-    MONTH(r.FechaFin) = MONTH(CURDATE() - INTERVAL 1 MONTH)
-    AND YEAR(r.FechaFin) = YEAR(CURDATE() - INTERVAL 1 MONTH)
+    MONTH(r.FechaInicio) = MONTH(CURDATE() - INTERVAL 1 MONTH)
+    AND YEAR(r.FechaInicio) = YEAR(CURDATE() - INTERVAL 1 MONTH)
 GROUP BY 
     ho.HotelID
 ORDER BY 
     Cantidad_reserva DESC
 LIMIT 1;
-
-
-
-
-
-
->>>>>>> 1108e7be0f18efc298fc16376a2511dfb8c92e4f
