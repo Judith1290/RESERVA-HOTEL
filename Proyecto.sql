@@ -32,13 +32,12 @@ CREATE TABLE Reservas (
     ReservaID INT AUTO_INCREMENT PRIMARY KEY,
     UsuarioID INT NOT NULL,
     HabitacionID INT NOT NULL,
-    HotelID INT NOT NULL,
     FechaInicio DATE NOT NULL,
     FechaFin DATE NOT NULL,
     FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID),
-    FOREIGN KEY (HabitacionID) REFERENCES Habitaciones(HabitacionID),
-    FOREIGN KEY (HotelID) REFERENCES Hoteles(HotelID)
+    FOREIGN KEY (HabitacionID) REFERENCES Habitaciones(HabitacionID)
 );
+
 -- Insertar datos en las tablas
 INSERT INTO Usuarios (Nombre, Email, Contraseña, Teléfono, Dirección)
 VALUES
@@ -115,42 +114,31 @@ VALUES
 DELIMITER //
 CREATE PROCEDURE AgregarNuevaReserva(
     IN p_UsuarioID INT,
-    IN p_HotelID INT,
     IN p_HabitacionID INT,
     IN p_FechaInicio DATE,
     IN p_FechaFin DATE
 )
 BEGIN
-    -- Verificar si la habitación pertenece al hotel especificado
+    -- Verificar si la habitación está disponible para las fechas especificadas
     IF NOT EXISTS (
         SELECT 1
-        FROM Habitaciones
+        FROM Reservas
         WHERE HabitacionID = p_HabitacionID
-          AND HotelID = p_HotelID
+          AND (p_FechaInicio <= FechaFin AND p_FechaFin >= FechaInicio)
     ) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'La habitación no pertenece al hotel especificado.';
+        -- Insertar la nueva reserva si no hay conflictos
+        INSERT INTO Reservas (UsuarioID, HabitacionID, FechaInicio, FechaFin)
+        VALUES (p_UsuarioID, p_HabitacionID, p_FechaInicio, p_FechaFin);
     ELSE
-        -- Verificar si la habitación está disponible para las fechas especificadas
-        IF NOT EXISTS (
-            SELECT 1
-            FROM Reservas
-            WHERE HabitacionID = p_HabitacionID
-              AND (p_FechaInicio <= FechaFin AND p_FechaFin >= FechaInicio)
-        ) THEN
-            -- Insertar la nueva reserva si no hay conflictos
-            INSERT INTO Reservas (UsuarioID, HabitacionID, HotelID, FechaInicio, FechaFin)
-            VALUES (p_UsuarioID, p_HotelID, p_HabitacionID, p_FechaInicio, p_FechaFin);
-        ELSE
-            -- Genera un error personalizado
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'La habitación no está disponible para las fechas seleccionadas.';
-        END IF;
+        -- Generar un error personalizado
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'La habitación no está disponible para las fechas seleccionadas.';
     END IF;
 END//
 DELIMITER ;
+
 -- Llamada al procedimiento para agregar una nueva reserva
-CALL AgregarNuevaReserva(1, 5, 29, '2024-04-18', '2024-04-19');
+CALL AgregarNuevaReserva(3,20, '2024-07-10', '2024-07-15');
 DELIMITER //
 CREATE PROCEDURE eliminacion_de_reserva(
     IN p_ReservaID INT
@@ -161,11 +149,13 @@ BEGIN
     WHERE ReservaID = p_ReservaID;
 END//
 DELIMITER ;
+
 -- Llamada al procedimiento para eliminar una reserva
-CALL eliminacion_de_reserva(4);
+CALL eliminacion_de_reserva(13);
 -- Consultas para verificar los datos
 
 
 
+DELETE FROM Reservas;
 
 

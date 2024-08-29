@@ -37,17 +37,24 @@ WHERE
 --  función integrada AVG(). Esta función calcula automáticamente el valor promedio de una columna.
 
 -- Consulta para listar los hoteles que tienen habitaciones disponibles pero no han sido
--- reservadas en el último mess
+-- reservadas en el último mes
 
-SELECT h.HotelID, ho.NombreHotel, COUNT(*) AS HabitacionesDisponibles
-FROM
-    Habitaciones h
-    INNER JOIN Hoteles ho ON h.HotelID = ho.HotelID
-    LEFT JOIN Reservas r ON h.HabitacionID = r.HabitacionID
-    AND r.FechaReserva > DATEADD (MONTH, -1, GETDATE ())
+-- Obtener hoteles con habitaciones disponibles y que no han sido reservadas en el último mes
+
+SELECT h.Nombre, h.Ubicación
+FROM Hoteles h
 WHERE
-    h.Disponible = 1
-    AND r.ReservaID IS NULL
-GROUP BY
-    h.HotelID,
-    ho.NombreHotel
+    h.HotelID NOT IN(
+        SELECT r.HotelID
+        FROM Reservas r
+        WHERE
+            r.FechaInicio >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+    )
+    AND h.HotelID IN (
+        SELECT ha.HotelID
+        FROM Habitaciones ha
+        WHERE
+            ha.Disponible = TRUE
+    );
+
+
