@@ -2,7 +2,7 @@
 USE reserva_hotel;
 
 
--- Esta consulta cuenta el número de habitaciones disponibles en el hotel con HotelID = 1 para la fecha dada '2024-08-15'.
+-- consulta cuenta el número de habitaciones disponibles en el hotel especifico con la fecha especifica
 SELECT COUNT(*) AS HabitacionesDisponibles
 FROM Habitaciones ha
 WHERE ha.HotelID = 1
@@ -13,26 +13,27 @@ AND ha.HabitacionID NOT IN (
     WHERE r.FechaInicio <= '2024-08-15' AND r.FechaFin >= '2024-08-15'
 );
 
--- 2. Consulta para buscar hoteles por ubicación según el nombre de la ubicación
--- Esta consulta busca hoteles cuya ubicación comienza con 'Punt'.
+-- buscae hotelespor ubiciacion
 SELECT *
 FROM Hoteles
 WHERE Ubicación LIKE 'Punt%';
 
--- 3. Consulta para obtener las reservas de un cliente (por email) realizadas en el mes anterior
--- Esta consulta obtiene todas las reservas realizadas por el usuario con el email 'mari.garcia@gmail.com' en el mes anterior.
+
+
+-- buscar reseerva del ultimo mes de usuario por correo
 SELECT *
 FROM Reservas
 WHERE UsuarioID = (
     SELECT UsuarioID
     FROM Usuarios
-    WHERE Email = 'mari.garcia@gmail.com'
+    WHERE Email = 'carlos.perez@gmail.com'
 )
-AND FechaInicio >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
-AND FechaFin < CURDATE();
+AND FechaInicio BETWEEN DATE_SUB(LAST_DAY(CURDATE()) + INTERVAL 1 DAY - INTERVAL 1 MONTH, INTERVAL 1 MONTH)
+AND LAST_DAY(CURDATE()) - INTERVAL 1 MONTH;
 
--- 4. Consulta para identificar el hotel con la mayor ocupación en el mes anterior
--- Esta consulta identifica el hotel con la mayor cantidad de reservas en el mes anterior.
+
+
+-- Consulta para identificar el hotel con la mayor ocupación en el mes anterior.
 SELECT
     ho.HotelID,
     COUNT(r.ReservaID) AS Cantidad_reserva
