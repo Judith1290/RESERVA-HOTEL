@@ -8,6 +8,9 @@ WHERE HotelID = 1 AND Disponible = TRUE;
 -- busqueda de hoteles por ubicacion segun el nombre de la ubicacion
 SELECT * 
 FROM Hoteles
+<<<<<<< HEAD
+WHERE Ubicación LIKE 'Punt%';
+=======
 WHERE Ubicación LIKE 'Punta%';
 
 -- Consulta para obtener las reservas de un cliente (por email) realizadas en el mes anterior.
@@ -44,3 +47,4 @@ LIMIT 1;
 
 
 
+>>>>>>> 1108e7be0f18efc298fc16376a2511dfb8c92e4f
