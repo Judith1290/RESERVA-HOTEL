@@ -15,6 +15,7 @@ FROM
     JOIN Hoteles h ON r.HotelID = h.HotelID
     JOIN Habitaciones ha ON r.HabitacionID = ha.HabitacionID;
 
+
 SELECT * FROM VistaReservas;
 
 
