@@ -8,7 +8,7 @@ SELECT
     h.Nombre AS HotelNombre,
     COUNT(r.ReservaID) AS TotalReservas
 FROM Hoteles h
-INNER JOIN Reservas r ON h.HotelID = r.HotelID
+INNER JOIN Reservas r ON h.HotelID = HabitacionID
 GROUP BY
     h.HotelID,
     h.Nombre
@@ -35,6 +35,13 @@ SELECT AVG(
 FROM Reservas
 WHERE
     HotelID = 3;
+
+SELECT AVG(
+        DATEDIFF(r.FechaFin, r.FechaInicio) + 1
+    ) AS PromedioDiasReservados
+FROM Reservas r
+INNER JOIN Habitaciones ha ON r.HabitacionID = ha.HabitacionID
+WHERE ha.HotelID = 2;
 
 -- 5. Consulta para listar los hoteles que tienen habitaciones disponibles pero no han sido
 -- reservadas en el último mes
