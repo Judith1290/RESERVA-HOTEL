@@ -150,7 +150,7 @@ BEGIN
 END//
 DELIMITER ;
 -- Llamada al procedimiento para agregar una nueva reserva
-CALL AgregarNuevaReserva(1, 5, 29, '2024-04-18', '2024-04-19');
+CALL AgregarNuevaReserva(1, 6, 31, '2024-07-01', '2024-07-01');
 DELIMITER //
 CREATE PROCEDURE eliminacion_de_reserva(
     IN p_ReservaID INT
