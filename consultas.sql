@@ -26,13 +26,13 @@ FROM Reservas
 WHERE UsuarioID = (
     SELECT UsuarioID
     FROM Usuarios
-    WHERE Email = 'carlos.perez@gmail.com'
+    WHERE Email = 'mari.garcia@gmail.com'
 )
 AND FechaInicio BETWEEN DATE_SUB(LAST_DAY(CURDATE()) + INTERVAL 1 DAY - INTERVAL 1 MONTH, INTERVAL 1 MONTH)
 AND LAST_DAY(CURDATE()) - INTERVAL 1 MONTH;
 
 
-
+-- h
 -- Consulta para identificar el hotel con la mayor ocupación en el mes anterior.
 SELECT
     ho.HotelID,
@@ -51,3 +51,5 @@ GROUP BY
 ORDER BY
     Cantidad_reserva DESC
 LIMIT 1;
+
+-- hola
