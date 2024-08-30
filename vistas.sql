@@ -1,3 +1,5 @@
+USE reserva_hotel;
+
 CREATE VIEW VistaReservas AS
 SELECT
     r.ReservaID,
