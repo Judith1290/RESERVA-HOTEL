@@ -484,7 +484,8 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'La habitación no está disponible para las fechas seleccionadas.';
     END IF;
-END//
+END
+
 
 DELIMITER;
 
