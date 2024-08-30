@@ -38,24 +38,30 @@ WHERE
 -- reservadas en el último mes
 -- Esta consulta obtiene los hoteles con habitaciones disponibles y que no han sido reservadas en el último mes.
 
-
-SELECT 
-  ha.HabitacionID, 
-  ha.Número, 
-  ha.Tipo, 
-  ha.PrecioPorNoche, 
-  (SELECT h.Nombre FROM Hoteles h WHERE h.HotelID = ha.HotelID) AS HotelNombre,
-  (SELECT h.Ubicación FROM Hoteles h WHERE h.HotelID = ha.HotelID) AS Ubicación
-FROM 
-  Habitaciones ha
-WHERE 
-  ha.Disponible = TRUE
-  AND NOT EXISTS (
-    SELECT 1
-    FROM Reservas r
-    WHERE r.HabitacionID = ha.HabitacionID
-      AND r.FechaInicio BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
-  );
-  
-
-
+SELECT
+    ha.HabitacionID,
+    ha.Número,
+    ha.Tipo,
+    ha.PrecioPorNoche,
+    (
+        SELECT h.Nombre
+        FROM Hoteles h
+        WHERE
+            h.HotelID = ha.HotelID
+    ) AS HotelNombre,
+    (
+        SELECT h.Ubicación
+        FROM Hoteles h
+        WHERE
+            h.HotelID = ha.HotelID
+    ) AS Ubicación
+FROM Habitaciones ha
+WHERE
+    ha.Disponible = TRUE
+    AND NOT EXISTS (
+        SELECT 1
+        FROM Reservas r
+        WHERE
+            r.HabitacionID = ha.HabitacionID
+            AND r.FechaInicio BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
+    );
