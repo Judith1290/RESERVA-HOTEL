@@ -28,8 +28,8 @@ WHERE UsuarioID = (
     FROM Usuarios
     WHERE Email = 'juan.herrera@gmail.com'
 )
-AND FechaInicio BETWEEN DATE_SUB(LAST_DAY(CURDATE()) + INTERVAL 1 DAY - INTERVAL 1 MONTH, INTERVAL 1 MONTH)
-AND LAST_DAY(CURDATE()) - INTERVAL 1 MONTH;
+AND FechaInicio BETWEEN '2024-07-01' AND '2024-07-31';
+
 
 
 
