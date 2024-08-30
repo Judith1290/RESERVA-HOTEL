@@ -129,8 +129,7 @@ CREATE PROCEDURE AgregarNuevaReserva(
     IN p_FechaInicio DATE,
     IN p_FechaFin DATE
 )
-BEGIN --inicia bloque de codigo
-    -- Validación de datos: Verifica si la habitación está disponible para las fechas seleccionadas
+BEGIN 
     IF NOT EXISTS (
         SELECT 1
         FROM Reservas
