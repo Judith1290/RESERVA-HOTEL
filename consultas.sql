@@ -1,8 +1,8 @@
--- Selecciona la base de datos a utilizar
+-- base de datos a utilizar
 USE reserva_hotel;
 
 
--- consulta cuenta el número de habitaciones disponibles en el hotel especifico con la fecha especifica
+--  cuenta el número de habitaciones disponibles en el hotel especifico con la fecha especifica
 SELECT COUNT(*) AS HabitacionesDisponibles
 FROM Habitaciones ha
 WHERE ha.HotelID = 1
@@ -20,20 +20,20 @@ WHERE Ubicación LIKE 'Punt%';
 
 
 
--- buscar reseerva del ultimo mes de usuario por correo
+-- busca reseerva del ultimo mes de usuario por correo
 SELECT *
 FROM Reservas
 WHERE UsuarioID = (
     SELECT UsuarioID
     FROM Usuarios
-    WHERE Email = 'mari.garcia@gmail.com'
+    WHERE Email = 'juan.herrera@gmail.com'
 )
 AND FechaInicio BETWEEN DATE_SUB(LAST_DAY(CURDATE()) + INTERVAL 1 DAY - INTERVAL 1 MONTH, INTERVAL 1 MONTH)
 AND LAST_DAY(CURDATE()) - INTERVAL 1 MONTH;
 
 
--- h
--- Consulta para identificar el hotel con la mayor ocupación en el mes anterior.
+
+-- identificar el hotel con la mayor ocupación en el mes anterior.
 SELECT
     ho.HotelID,
     COUNT(r.ReservaID) AS Cantidad_reserva
@@ -50,6 +50,4 @@ GROUP BY
     ho.HotelID
 ORDER BY
     Cantidad_reserva DESC
-LIMIT 1;
-
--- hola
+-- LIMIT 1;
