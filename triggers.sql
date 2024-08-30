@@ -1,7 +1,7 @@
 
 USE reserva_hotel;
 
-
+-- trigues para cambias estados de habitacion
 DELIMITER //
 CREATE TRIGGER actualizar_disponibilidad_habitaciones
 AFTER INSERT ON Reservas
