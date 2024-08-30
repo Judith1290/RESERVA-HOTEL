@@ -122,14 +122,14 @@ VALUES
 
 DELIMITER / /
 
--- agregar una nueva reserva
+-- agregar una nueva reserva/ create procedure la instrucción
 CREATE PROCEDURE AgregarNuevaReserva(
     IN p_UsuarioID INT,
     IN p_HabitacionID INT,
     IN p_FechaInicio DATE,
     IN p_FechaFin DATE
 )
-BEGIN
+BEGIN --inicia bloque de codigo
     -- Validación de datos: Verifica si la habitación está disponible para las fechas seleccionadas
     IF NOT EXISTS (
         SELECT 1
@@ -165,4 +165,6 @@ DELIMITER;
 CALL eliminacion_de_reserva (13);
 
 
-DROP DATABASE reserva_hoteles
+DROP DATABASE Reserva_hotel
+
+DROP TABLE Reservas;
