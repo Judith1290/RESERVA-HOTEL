@@ -3,17 +3,20 @@ USE Reserva_hotel;
 
 -- 1. Consulta para obtener los hoteles con mayor número de reservas
 -- Esta consulta muestra los hoteles ordenados por la cantidad total de reservas, de mayor a menor.
+
 SELECT
     h.HotelID,
     h.Nombre AS HotelNombre,
     COUNT(r.ReservaID) AS TotalReservas
 FROM
     Hoteles h
-    INNER JOIN Reservas r ON h.HotelID = HabitacionID
+    INNER JOIN Habitaciones ha ON h.HotelID = ha.HotelID
+    LEFT JOIN Reservas r ON ha.HabitacionID = r.HabitacionID
 GROUP BY
     h.HotelID,
     h.Nombre
-ORDER BY TotalReservas DESC;
+ORDER BY TotalReservas DESC
+LIMIT 1;
 
 -- 2. Consulta para buscar hoteles por nombre
 -- Esta consulta busca hoteles cuyo nombre contiene el texto "RIU".
@@ -32,12 +35,13 @@ SELECT AVG(
 FROM Reservas r
     INNER JOIN Habitaciones ha ON r.HabitacionID = ha.HabitacionID
 WHERE
-    ha.HotelID = 1;
+    ha.HotelID = 1
+    AND r.FechaInicio IS NOT NULL
+    AND r.FechaFin IS NOT NULL;
 
 -- 5. Consulta para listar los hoteles que tienen habitaciones disponibles pero no han sido
 -- reservadas en el último mes
 -- Esta consulta obtiene los hoteles con habitaciones disponibles y que no han sido reservadas en el último mes.
-
 SELECT
     ha.HabitacionID,
     ha.Número,
@@ -65,3 +69,7 @@ WHERE
             r.HabitacionID = ha.HabitacionID
             AND r.FechaInicio BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
     );
+
+-- SELECT Email FROM Usuarios WHERE UsuarioID = 5;
+
+-- SELECT * FROM Hoteles WHERE HotelID = 1;
